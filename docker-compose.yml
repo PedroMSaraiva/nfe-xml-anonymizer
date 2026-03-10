@@ -1,0 +1,41 @@
+services:
+  presidio:
+    build: ./presidio
+    ports:
+      - "8080:8080"
+    environment:
+      - ANON_HASH_SALT=${ANON_HASH_SALT:-sefaz-go-dev-salt-change-in-production}
+      - ANON_DP_EPSILON=${ANON_DP_EPSILON:-2.0}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - anon-net
+
+  api:
+    build: ./api
+    ports:
+      - "8000:8000"
+    environment:
+      - PRESIDIO_URL=http://presidio:8080
+    depends_on:
+      presidio:
+        condition: service_healthy
+    networks:
+      - anon-net
+
+  ui:
+    build: ./ui
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    networks:
+      - anon-net
+
+networks:
+  anon-net:
+    driver: bridge

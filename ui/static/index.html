@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NF-e Anonymizer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>NF-e Anonymizer</h1>
+      <p class="subtitle">Upload up to 5 NF-e XML files and compare before/after anonymization.</p>
+
+      <section class="card">
+        <label for="files" class="label">XML files (max 5):</label>
+        <input id="files" type="file" accept=".xml" multiple />
+        <div class="actions">
+          <button id="processBtn">Process</button>
+        </div>
+        <p id="status" class="status"></p>
+      </section>
+
+      <section id="results" class="results"></section>
+    </main>
+
+    <template id="resultTemplate">
+      <article class="result-card">
+        <header>
+          <h2 class="filename"></h2>
+          <button class="download">Download anonymized XML</button>
+        </header>
+        <div class="split">
+          <div>
+            <h3>Before</h3>
+            <pre class="before"></pre>
+          </div>
+          <div>
+            <h3>After</h3>
+            <pre class="after"></pre>
+          </div>
+        </div>
+        <details>
+          <summary>Metadata</summary>
+          <pre class="meta"></pre>
+        </details>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+  </html>
